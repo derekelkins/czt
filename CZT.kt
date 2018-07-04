@@ -208,6 +208,48 @@ class CZT(u: Complex, w: Complex, private val n: Int, private val m: Int) {
         return Array(m, { buffer[it]*c[it] })
     }
 
+    fun transformInto(x: Array<Complex>, output: Array<Complex>) {
+        assert(x.size == n)
+        assert(output.size == m)
+
+        for(i in buffer.indices) {
+            buffer[i] = if (i < n) a[i]*x[i] else Complex.zero
+        }
+
+        fft(buffer, pow2)
+
+        for(i in buffer.indices) {
+            buffer[i] *= b[i]
+        }
+
+        ifft(buffer, pow2)
+
+        for(i in output.indices) {
+            output[i] = buffer[i]
+        }
+    }
+
+    fun transformInto(x: FloatArray, output: Array<Complex>) {
+        assert(x.size == n)
+        assert(output.size == m)
+
+        for(i in buffer.indices) {
+            buffer[i] = if (i < n) a[i]*x[i] else Complex.zero
+        }
+
+        fft(buffer, pow2)
+
+        for(i in buffer.indices) {
+            buffer[i] *= b[i]
+        }
+
+        ifft(buffer, pow2)
+
+        for(i in output.indices) {
+            output[i] = buffer[i]
+        }
+    }
+
     companion object {
         /**
             Produces a CZT for the common case of evaluating along an arc of the unit circle in the complex plain.
