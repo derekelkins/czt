@@ -225,7 +225,7 @@ class CZT(u: Complex, w: Complex, private val n: Int, private val m: Int) {
         ifft(buffer, pow2)
 
         for(i in output.indices) {
-            output[i] = buffer[i]
+            output[i] = buffer[i] * c[i]
         }
     }
 
@@ -246,7 +246,7 @@ class CZT(u: Complex, w: Complex, private val n: Int, private val m: Int) {
         ifft(buffer, pow2)
 
         for(i in output.indices) {
-            output[i] = buffer[i]
+            output[i] = buffer[i] * c[i]
         }
     }
 
