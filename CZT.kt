@@ -155,7 +155,7 @@ class CZT(u: Complex, w: Complex, private val n: Int, private val m: Int) {
     private val l = 1 shl pow2
 
     private val a = Array<Complex>(n, { u.pow(-it) * w.sqrt().pow(it*it) })
-    private val b = Array<Complex>(l, {when { it < m -> w.sqrt().pow(-it*it); it >= l-n -> w.sqrt().pow(-(l-it)*(l-it)); else -> Complex.zero }})
+    private val b = Array<Complex>(l, {when { it < m -> w.sqrt().pow(-it*it); it > l-n -> w.sqrt().pow(-(l-it)*(l-it)); else -> Complex.zero }})
     private val c = Array<Complex>(m, { 1.0f/l.toFloat() * w.sqrt().pow(it*it) })
 
     init {
@@ -259,12 +259,12 @@ class CZT(u: Complex, w: Complex, private val n: Int, private val m: Int) {
     }
 }
 
-/* These were only for testing
+/*
 fun main(args: Array<String>) {
-    val x = floatArrayOf(1.0f, 0.0f, 0.0f, 0.0f, -1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f)
-    //dft(x).forEach { println(it) }
+    val x = floatArrayOf(1.0f, 0.0f, 0.0f, 0.0f, -1.0f, 0.0f, 0.0f)
+    dft(x.map { Complex(it, 0.0f) }.toTypedArray()).forEach { println(it) }
     val transformer = CZT.arc(0.0f, 2*PI.toFloat(), x.size)
-    //println("")
+    println("")
     transformer.transform(x).forEach { println(it) }
 }
 
